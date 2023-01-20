@@ -1,0 +1,139 @@
+---
+title: "Pengaruh Populasi dan Foreign Direct Investment Terhadap Gross Domestic Product"
+subtitle: "Tugas pengganti UAS Metopel"
+author: "Faras Melia"
+date: 2023-01-20
+number-sections: true
+format:
+  html: default
+  docx: default
+editor: visual
+---
+
+This just a showcase of what quarto docs can produce. I use this part for my students.
+
+![](poltekapp.jpg){fig-align="center" width="306"}
+
+## Pendahuluan
+
+### Latar belakang
+
+![](Cause%20Effect%20Fishbone%20Diagram%20Template_page-0001.jpg){width="409"}
+
+Pertumbuhan ekonomi suatu negara menunjukkan kemampuan perekonomian negara untuk mendapatkan penghasilan bagi penduduknya pada satu rentang waktu tertentu sehingga menghasilkan suatu produksi yang bernilai. Menurut World Population Review, Indonesia memiliki populasi terbanyak ke-4 di antara negara G20. Dikutip dari Hadari Nawawi (1983), Populasi merupakan kesatuan sasaran pengkajian yang terbentuk atas manusia, satwa, benda-benda, tumbuhan, keadaan, fenomena, atau nilai perhitungan sebagai asal data yang memiliki personalitas berbeda dalam suatu penelitian yang berlangsung.
+
+Pengaruh populasi dan investasi terhadap Gross Domestic Product bertujuan untuk mengetahui pengaruh dari masing-masing variabel terhadap independen, serta melihat adanya hubungan antar variabel. Pada diagram fishbone diatas, terdapat faktor-faktor yang mempengaruhi meningkatnya GDP Indonesia dari tahun 1990-2021.
+
+### Ruang lingkup
+
+Laporan ini menggunakan data runtut waktu (time series data) pada tahun 1990-2021 dengan analisis Regresi Linear Berganda.
+
+### Rumusan masalah
+
+Adapun poin-poin permasalahan yang akan dibahas.
+
+a)  Apakah pertumbuhan GDP dipengaruhi oleh populasi?
+
+b)  Apakah pertumbuhan GDP dipengaruhi oleh Foreign Direct Investment?
+
+c)  Seberapa besar korelasi antar variabel tersebut?
+
+### Tujuan dan manfaat penelitian
+
+Tujuan dari penelitian ini adalah untuk mengetahui apakah pertumbuhan GDP dipengaruhi oleh jumlah populasi dan banyaknya investasi asing.
+
+Penelitian ini bermanfaat sebagai kajian ilmu pengetahuan dan wawasan yang terkait dengan tema penelitian ini. Penelitian dapat digunakan oleh pembuat kebijakan, dan para peneliti.
+
+### Package
+
+Packages yang digunakan antara lain sebagai berikut:
+
+```{r}
+library(tidyverse)
+library(readxl)
+```
+
+## Studi pustaka
+
+Gross Domestic Product (GDP) / Produk Domestik Bruto (PDB) adalah perancangan yang dimanfaatkan atas suatu negara sebagai tolak ukur utama bagi kegiatan ekonomi nasionalnya, namun pada dasarnya GDP/PDB menghitung semua kapasitas produksi dari suatu wilayah (negara) secara geografis. (Kemenkeu, 2021)
+
+Populasi merupakan kesatuan data yang digunakan seorang peneliti dalam landasan dan waktu tertentu. Populasi berhubungan dengan data-data, apabila seorang manusia membagikan suatu data, maka hitungan atau banyaknya populasi sama dengan banyaknya manusia. (Margono, 2004)
+
+Foreign Direct Investment (FDI) ialah laju dana internasional suatu perusahaan dari negara lain yang membentuk atau mengembangkan perusahaannya di negara lainnya. (Krugman, 1999) Menurut Sadono Sukirno (2005) investasi diartikan sebagai biaya untuk mengganti barang modal dan peralatan produksi bertujuan untuk mengubah dan terpenting memperbarui barang-barang modal dalam perekonomian yang digunakan untuk memproduksi barang dan jasa.
+
+## Metode penelitian
+
+### Data
+
+Penelitian ini menggunakan data.worldbank.org yang dapat diakses pada [Data Metopel](https://drive.google.com/drive/folders/12UvN_JRxiFeQmoRp0Ay7eTJI4W-BI8Uh).
+
+### Metode analisis
+
+Metode yang dipilih adalah regresi time series dengan 2 variabel independen. Penelitian ini bermaksud mencari hubungan antara Populasi dan Foreign Direct Investment yang mempengaruhi GDP Growth. Spesifikasi yang dilakukan adalah:
+
+$$
+y_{t}=\beta_0 + \beta_1 X_1+ \beta_2 X_2 + \mu_t
+$$ di mana $y_t$ adalah GDP, $x_1$ adalah jumlah populasi, dan $x_2$ adalah FDI.
+
+## Pembahasan
+
+### Pembahasan masalah
+
+```{r}
+setwd("c:/metopel jurnal")
+dat<-read_excel('data1fayas.xlsx')
+```
+
+```{r}
+plot(dat$X,dat$Y,xlab="Populasi",ylab="GDP Growth")
+abline(lm(dat$Y~dat$X))
+```
+
+```{r}
+plot(dat$S,dat$Y,xlab="FDI",ylab="GDP Growth")
+abline(lm(dat$Y~dat$S))
+```
+
+```{r}
+reg1<-lm(data=dat,Y~X+S)
+summary(reg1)
+```
+
+```{r}
+dat$u<-resid(reg1)
+```
+
+```{r}
+plot(dat$Y,dat$m,xlab="GDP Growth",ylab="error")
+abline(h=0)
+```
+
+```{r}
+plot(dat$S,dat$m,xlab="FDI",ylab="error")
+abline(h=0)
+```
+
+```{r}
+plot(dat$X,dat$m,xlab="Populasi",ylab="error")
+abline(h=0)
+```
+
+### Analisis masalah
+
+Dari hasil regresi diatas, didapatkan model regresi seperti berikut.
+
+$$ Ŷ=227467687 + -1714449 X_1+ 8294499 X_2 + \mu_t $$
+
+Terdapat nilai t-value yang menunjukkan signifikansi antara variabel X dan S pada p-value didapatkan nilai sebesar: 0.09147 atau 9,4% dapat disimpulkan bahwa R-squared:0.1521 atau 15,21% bisa dijelaskan oleh variabel X (Populasi) dan S (FDI). Signifikasi code menunjukan variabel Y mendapatkan level signifikansi di level 0,1%, variabel X mendapatkan level 10%, dan variabel S mendapatkan level 5%. Adjusted R-squared menunjukkan nilai yang mendekati1 atau sebesar 0.09359 setara 9.3%
+
+## Kesimpulan
+
+Dapat disimpulkan bahwa pertumbuhan GDP Indonesia dipengaruhi oleh jumlah populasi dan investasi asing sebanyak 15,21%. Apabila Populasi dan FDI meningkat maka GDP Indonesia juga ikut meningkat. Selain itu, peningkatan GDP Indonesia tidak hanya dipengaruhi oleh populasi dan FDI, masih terdapat faktor lain seperti tingkat pengangguran, kebijakan pemerintah, dan hasil dari ekspor maupun impor.
+
+Saran untuk pemerintah agar menambah investasi asing dengan cara menarik minat ivestor asing untuk berinvestasi di Indonesia, serta mempermudah proses birokrasi pengurusan penanaman modal asing. Indonesia mempunyai banyak penduduk karena itu dengan adanya investasi asing menciptakan lapangan kerja baru bagi penduduk dan meningkatkan pertumbuhan GDP Indonesia. Tersedianya sumber daya manusia yang melimpah, seharusnya diikuti juga dengan kualitas sumber daya sehingga tingkat produktivitas berpngaruh terhadap pertumbuhan ekonomi Indonesia.
+
+## Referensi
+
+Fauziana, L., Mulyaningsih, A., Anggraeni, E., Chaola Y.M, S., & Rofida, U. (2014). KETERKAITAN INVESTASI MODAL TERHADAP GDP INDONESIA. Economics Development Analysis Journal, 3(2). https://journal.unnes.ac.id/sju/index.php/edaj/article/view/3845
+
+KUSUMAWARDHANI, N. M. S., SRINADI, I. G. A. M., & SUSILAWATI, M. (2012). FAKTOR-FAKTOR YANG MEMENGARUHI PDB INDONESIA DENGAN PERSAMAAN SIMULTAN 2SLS. E-Jurnal Matematika, 1(2), 99--102.
